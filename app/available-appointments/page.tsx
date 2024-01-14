@@ -57,11 +57,12 @@ export default function Home() {
       </div>
       <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 p-4 border-b-2 border-black'>
-            <p className="text-xl font-bold">Tip treninga</p>
-            <p className="text-xl font-bold">Teretana</p>
+            <p className="font-bold w-[20%]">Tip treninga</p>
+            <p className="font-bold w-[20%]">Teretana</p>
           <p className="font-bold w-[20%]">Vreme</p>
           <p className="font-bold w-[20%]">Datum</p>
           <p className="font-bold w-[20%]">Slobodnih Mesta</p>
+          <p className="font-bold w-[20%]">Cena</p>
           <p className="px-4 py-2 bg-transparent text-transparent select-none">Zakazi</p>
         </div>
         {appointments.map((a:any) => {
@@ -72,6 +73,7 @@ export default function Home() {
               <p className="w-[20%]">{a.start}h - {a.end}h</p>
               <p className="w-[20%]">{a.date}</p>
               <p className="w-[20%]">{a.availablePlaces}</p>
+              <p className="w-[20%]">{a.price} din.</p>
               <button className="btn" onClick={() => handleSchedule(a.id)}>Zakaži</button>
           </div>
           )

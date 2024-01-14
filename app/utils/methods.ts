@@ -65,6 +65,20 @@ export const getTrainingTypeInfo = async (id:number, token:number) => {
     }
 }
 
+export const getGymTrainingTypeInfo = async (gymId:number, typeId:number) => {
+    try{
+        const res = await axios.get(`${APPOINTMENT_URL}/training-type/price/${gymId}/${typeId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+    }catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export const cancelUserAppointment = async (userData:UserDto|null, appointmentId:number) => {
     if(userData == null)
         return;
