@@ -3,15 +3,7 @@ import axios from "axios";
 const APPOINTMENT_URL = "http://localhost:8081/api"
 const MESSAGE_URL = "http://localhost:8082/api"
 
-export const getAvailableAppointments = async (TrainingTypeId: Array<number> | null,
-                                                isIndividual: number | null,
-                                                dayOfWeek: string | null) => {
-    const filter:FilterDto = {
-        TrainingTypeId: TrainingTypeId,
-        isIndividual: isIndividual,
-        dayOfWeek: dayOfWeek
-    }
-
+export const getAvailableAppointments = async (filter:FilterDto) => {
     try {
         const response = await axios.post(`${APPOINTMENT_URL}/appointment/`,filter, {
             headers: {
@@ -107,6 +99,21 @@ export const scheduleUserAppointment = async (userData:UserDto|null, appointment
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         })
+    }catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getTrainingTypes = async () => {
+    try{
+        const res = await axios.get(`${APPOINTMENT_URL}/training-type/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content;
     }catch (error) {
         console.error(error);
         throw error;

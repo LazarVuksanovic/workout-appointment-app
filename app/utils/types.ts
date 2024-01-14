@@ -57,7 +57,7 @@ type ChangePasswordInputs = {
 }
 
 type FilterDto = {
-    TrainingTypeId: Array<number> | null;
+    trainingTypes: string | null;
     isIndividual: number | null;
     dayOfWeek: string | null;
 }
@@ -73,4 +73,11 @@ type AppointmentDto = {
     gymName: string,
     trainingTypeName: string,
     trainingTypeId: number,
+    cena: number,
+}
+
+type TrainingTypeDto = {
+    id: number,
+    name: string;
+    isIndividual: boolean;
 }
