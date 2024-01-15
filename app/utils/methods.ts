@@ -269,3 +269,20 @@ export const getAllGyms = async () => {
         throw error;
     }
 }
+
+export const verifyEmail = async (id:number) => {
+    const idDto:IdDto = {
+        id: id
+    }
+    try{
+        const res = await axios.post(`${USER_URL}/user/email-verification`, idDto, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}

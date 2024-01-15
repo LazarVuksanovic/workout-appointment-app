@@ -7,6 +7,7 @@ type UserDto = {
     dateOfBirth: Date | null,
     role: string,
     banned: boolean
+    verified: boolean
 }
 
 type UserUpdateDto = {
