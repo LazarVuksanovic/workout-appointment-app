@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { banUser, getAllUsers, getAvailableAppointments, getTrainingTypes, scheduleUserAppointment, unbanUser } from "../utils/methods";
+import { banUser, getAllUsers, unbanUser } from "../utils/methods";
 import Link from "next/link";
-import Filter from "../components/Filter";
 import axios from "axios";
 
 
@@ -55,7 +54,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 p-4 border-b-2 border-black'>
+        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
             <p className="font-bold w-[20%]">Username</p>
             <p className="font-bold w-[20%]">Email</p>
           <p className="font-bold w-[20%]">Ime i Prezime</p>

@@ -47,7 +47,7 @@ export default function Home() {
     const handleUpdate = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await editGym(Number.parseInt(params.id), inputs);
-        router.push("/")
+        router.push("/manager-panel");
     }
 
     return (

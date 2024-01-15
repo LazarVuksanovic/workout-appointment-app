@@ -4,6 +4,34 @@ const APPOINTMENT_URL = "http://localhost:8081/api"
 const MESSAGE_URL = "http://localhost:8082/api"
 const USER_URL = "http://localhost:8080/api"
 
+export const registerClient = async (inputs:ClientCreateDto) => {
+    try{
+        const res = await axios.post(`${USER_URL}/user/client`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const registerManager = async (inputs:ManagerCreateDto) => {
+    try{
+        const res = await axios.post(`${USER_URL}/user/gymmanager`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
 export const getAvailableAppointments = async (filter:FilterDto) => {
     try {
         const response = await axios.post(`${APPOINTMENT_URL}/appointment/`,filter, {
@@ -220,6 +248,22 @@ export const editGym = async (id:number, inputs:GymUpdateDto) => {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const getAllGyms = async () => {
+    try{
+        const res = await  axios.get(`${APPOINTMENT_URL}/gym`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content
+
     }catch(error){
         console.log(error)
         throw error;

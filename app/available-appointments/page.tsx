@@ -57,12 +57,12 @@ export default function Home() {
           {trainingTypes && <Filter trainingTypes={trainingTypes} submitFilter={submitFilter} setFilter={setFilter} filter={filter} />}
         </div>
         <div className="flex gap-4">
-          {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
           <Link href={"/"} className="btn">Početna</Link>
+          {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
       <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 p-4 border-b-2 border-black'>
+        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
             <p className="font-bold w-[20%]">Tip treninga</p>
             <p className="font-bold w-[20%]">Teretana</p>
           <p className="font-bold w-[20%]">Vreme</p>

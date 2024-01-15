@@ -1,29 +1,33 @@
 "use client"
-import Link from "next/link";
+import { registerManager } from "@/app/utils/methods";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-    const [inputs, setInputs] = useState<GymManagerCreateDto>({
+    const router = useRouter();
+    const [inputs, setInputs] = useState<ManagerCreateDto>({
         username:'',
         password:'',
         email:'',
         dateOfBirth:null,
         firstName:'',
         lastName:'',
-        gymName:''
+        gymName: '',
     });
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))
     };
-    const handleLogin = (e:React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        await registerManager(inputs);
+        router.push("/login")
     };
     return (
       <main className="flex flex-col min-h-screen items-center p-8 space-y-16">
         <div className="flex flex-col border-2 items-center p-10 rounded-xl">
-            <h1 className="text-3xl mb-10">Register as gym manager</h1>
-            <form className="flex flex-col space-y-10 items-left" onSubmit={handleLogin}>
+            <h1 className="text-3xl mb-10">Register as Client</h1>
+            <form className="flex flex-col space-y-10 items-left" onSubmit={handleRegister}>
                 <div className="flex flex-col">
                     <label htmlFor="firstName">First Name</label>
                     <input onChange={handleInputChange} type="text" name='firstName' id="firstName" className="input" ></input>
@@ -37,12 +41,12 @@ export default function Home() {
                     <input onChange={handleInputChange} type="date" name='dateOfBirth' id="dateOfBirth" className="input" ></input>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="gymName">Gym name</label>
-                    <input onChange={handleInputChange} type="text" name='gymName' id="gymName" className="input" ></input>
-                </div>
-                <div className="flex flex-col">
                     <label htmlFor="email">Email</label>
                     <input onChange={handleInputChange} type="email" name='email' id="email" className="input" ></input>
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="gymName">Gym name</label>
+                    <input onChange={handleInputChange} type="text" name='gymName' id="gymName" className="input" ></input>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="username">Username</label>
@@ -50,7 +54,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="password">Password</label>
-                    <input onChange={handleInputChange} type="password" name='password' id="password" className="input"></input>
+                    <input onChange={handleInputChange} type="password" name='password' id="password" className="input" ></input>
                 </div>
                 <button className="btn">Register</button>
             </form>

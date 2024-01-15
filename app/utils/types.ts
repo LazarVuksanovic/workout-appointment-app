@@ -39,6 +39,16 @@ type ClientCreateDto = {
     lastName: string,
 }
 
+type ManagerCreateDto = {
+    username: string,
+    password: string,
+    email: string,
+    dateOfBirth: Date | null,
+    firstName: string,
+    lastName: string,
+    gymName: string,
+}
+
 type GymManagerCreateDto = {
     username: string,
     password: string,
@@ -88,4 +98,11 @@ type GymUpdateDto = {
     name: string;
     description: string;
     numOfPersonalCoaches: number;
+}
+
+type GymDto = {
+    id: number;
+    name: string;
+    description: string;
+    numOfPersonalCoaches: number
 }
