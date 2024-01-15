@@ -8,11 +8,12 @@ import axios from "axios";
 
 
 export default function Home() {
-  const {getUserData} = useAppContext();
+  const {getUserData, logOut, token} = useAppContext();
   const [userData, setUserData] = useState<any>({});
   const [appointments, setAppointments] = useState<Array<AppointmentDto>>([]);
   const [trainingTypes, setTrainingTypes] = useState<Array<TrainingTypeDto> | null>(null)
   const [filter, setFilter] = useState<FilterDto>({trainingTypes: null, isIndividual: null, dayOfWeek: null,})
+
   useEffect(() => {
     const fetchData = () => {
       axios.all([getAvailableAppointments(filter), getUserData(), getTrainingTypes()])
@@ -40,11 +41,13 @@ export default function Home() {
   };
 
   const submitFilter = async () => {
-    console.log(filter)
     const a = await getAvailableAppointments(filter)
     setAppointments(a);
   };
-  console.log(appointments)
+
+  if(token == null || token == '')
+    return <p>Moras da se login-ujes</p>
+
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Dostupni termini</h1>
@@ -53,7 +56,10 @@ export default function Home() {
           <h2 className="text-xl font-bold mb-2">Filter</h2>
           {trainingTypes && <Filter trainingTypes={trainingTypes} submitFilter={submitFilter} setFilter={setFilter} filter={filter} />}
         </div>
-        <Link href={"/"} className="btn">Početna</Link>
+        <div className="flex gap-4">
+          {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
+          <Link href={"/"} className="btn">Početna</Link>
+        </div>
       </div>
       <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 p-4 border-b-2 border-black'>

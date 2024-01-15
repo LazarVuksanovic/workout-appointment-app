@@ -17,9 +17,6 @@ const Filter: React.FC<FilterProps> = ({trainingTypes, submitFilter, setFilter, 
 
     const handleApply = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // console.log("TrainingTypeId",filter.TrainingTypeId)
-        // console.log("dayOfWeek",filter.dayOfWeek)
-        // console.log("isIndividual",filter.isIndividual)
         submitFilter();
     }
 

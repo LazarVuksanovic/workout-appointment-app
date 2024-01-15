@@ -4,19 +4,17 @@ type UserDto = {
     email: string,
     firstName: string,
     lastName: string,
-    dateOfBirth: Date
-    role: string
+    dateOfBirth: Date | null,
+    role: string,
+    banned: boolean
 }
 
 type UserUpdateDto = {
     username: string,
-    password: string,
     email: string,
     firstName: string,
     lastName: string,
     dateOfBirth: Date,
-    gymName: string,
-    employmentDate: Date
 }
 
 type IdDto = {
@@ -51,7 +49,7 @@ type GymManagerCreateDto = {
     gymName: string
 }
 
-type ChangePasswordInputs = {
+type ResetPasswordDto = {
     oldPassword: string,
     newPassword: string
 }
@@ -80,4 +78,14 @@ type TrainingTypeDto = {
     id: number,
     name: string;
     isIndividual: boolean;
+}
+
+type BannedUserDto = {
+    id: number
+}
+
+type GymUpdateDto = {
+    name: string;
+    description: string;
+    numOfPersonalCoaches: number;
 }

@@ -25,24 +25,14 @@ const ContextProvider = ({children}: { children: React.ReactNode }) => {
     const USER_URL = "http://localhost:8080/api"
 
     useEffect(() => {
-        const tokenCheck = async () => {
-            if(localStorage.getItem("token") || localStorage.getItem("token") != ''){
-                setToken(localStorage.getItem("token"));
-                const data = await getUserData();
-                setUserData(data);
-                console.log("setovao iz locala");
-            }
-            else{
-                router.push("/login")
-            }
+        const fetchData = async () => {
+            if(localStorage.getItem("token") != null && localStorage.getItem("token") != '')
+                setToken(localStorage.getItem("token"))
         }
-        //tokenCheck();
-        setToken('');
+        fetchData();
     }, []);
     
     const logIn = async (inputs:TokenRequestDto) => {
-        if(token != '')
-            return;
         try{
             const res = await axios.post(`${USER_URL}/user/login`, inputs, {
                 headers: {'Content-Type': 'application/json'},
@@ -62,6 +52,7 @@ const ContextProvider = ({children}: { children: React.ReactNode }) => {
         localStorage.removeItem("token");  
         setToken(null);
         setUserData(null)
+        router.push("/login")
     };
 
     const getUserData = async () => {

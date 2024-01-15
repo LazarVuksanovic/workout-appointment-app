@@ -2,6 +2,7 @@ import axios from "axios";
 
 const APPOINTMENT_URL = "http://localhost:8081/api"
 const MESSAGE_URL = "http://localhost:8082/api"
+const USER_URL = "http://localhost:8080/api"
 
 export const getAvailableAppointments = async (filter:FilterDto) => {
     try {
@@ -35,7 +36,7 @@ export const getUserAppointments = async () => {
     }
 }
 
-export const getGymInfo = async (id:number) => {
+export const getGymInfo = async (id:any) => {
     try{
         const res = await axios.get(`${APPOINTMENT_URL}/gym/${id}`,{
             headers: {
@@ -50,7 +51,7 @@ export const getGymInfo = async (id:number) => {
     }
 }
 
-export const getTrainingTypeInfo = async (id:number, token:number) => {
+export const getTrainingTypeInfo = async (id:any, token:number) => {
     try{
         const res = await axios.get(`${APPOINTMENT_URL}/training-type/${id}`,{
             headers: {
@@ -130,6 +131,97 @@ export const getTrainingTypes = async () => {
         return res.data.content;
     }catch (error) {
         console.error(error);
+        throw error;
+    }
+}
+
+export const getAllUsers = async () => {
+    try{
+        const res = await axios.get(`${USER_URL}/user`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content
+    }catch(error){
+        console.log(error)
+        //throw error;
+    }
+}
+
+export const banUser = async (id:number) => {
+    const user:BannedUserDto = {
+        id: id
+    }
+    try{
+        const res = await axios.post(`${USER_URL}/user/ban`, user, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const unbanUser = async (id:number) => {
+    const user:BannedUserDto = {
+        id: id
+    }
+    try{
+        const res = await axios.post(`${USER_URL}/user/unban`, user, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const editUser = async (inputs:UserUpdateDto) => {
+    try{
+        const res = await axios.post(`${USER_URL}/user/edit`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const changePassword = async (inputs:ResetPasswordDto) => {
+    try{
+        const res = await axios.post(`${USER_URL}/user/reset-password`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const editGym = async (id:number, inputs:GymUpdateDto) => {
+    try{
+        const res = await axios.post(`${APPOINTMENT_URL}/gym/${id}/edit`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+    }catch(error){
+        console.log(error)
         throw error;
     }
 }
