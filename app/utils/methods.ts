@@ -286,3 +286,18 @@ export const verifyEmail = async (id:number) => {
         throw error;
     }
 }
+
+export const getAllMessages = async () => {
+    try{
+        const res = await axios.get(`${MESSAGE_URL}/message`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content
+    }catch(error){
+        console.log(error)
+        throw error
+    }
+}
