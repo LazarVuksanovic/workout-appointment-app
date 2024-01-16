@@ -53,7 +53,6 @@ export default function Home() {
         <h2 className='text-xl'>Lista korisnika</h2>
         <div className="flex gap-4">
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
-          <Link href={"/"} className="btn">Početna</Link>
         </div>
       </div>
       <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">

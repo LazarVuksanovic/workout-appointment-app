@@ -270,6 +270,26 @@ export const getAllGyms = async () => {
     }
 }
 
+export const getGymByName = async (name:string) => {
+    if(name == undefined)
+        return null
+    const n:any = {
+        gymName: name
+    }
+    try{
+        const res = await axios.post(`${APPOINTMENT_URL}/gym/name/`, n, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
 export const verifyEmail = async (id:number) => {
     const idDto:IdDto = {
         id: id
@@ -299,5 +319,70 @@ export const getAllMessages = async () => {
     }catch(error){
         console.log(error)
         throw error
+    }
+}
+
+export const addAppointment = async (inputs:any, gymId:number, availablePlaces:number) => {
+    inputs.gymId = gymId;
+    inputs.availablePlaces = availablePlaces;
+    console.log(inputs)
+    try{
+        const res = await axios.post(`${APPOINTMENT_URL}/appointment/add`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data
+    }catch(error){
+        console.log(error)
+        throw error
+    }
+}
+
+export const getGymTrainingTypes = async (gymId:number) => {
+    if(gymId == undefined)
+        return
+    try{
+        const res = await axios.get(`${APPOINTMENT_URL}/gym/${gymId}/training-types`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content
+    }catch(error){
+        console.log(error)
+        throw error
+    }
+}
+
+export const removeGymTrainingType = async (id:number) => {
+    try{
+        const res = await axios.post(`${APPOINTMENT_URL}/gym/remove-training-type/${id}`, null, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const addGymTrainingType = async (gymId:number, inputs:any) => {
+    try{
+        const res = await axios.post(`${APPOINTMENT_URL}/gym/${gymId}/add-training-type`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
     }
 }

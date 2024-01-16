@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { getAllGyms } from "../utils/methods";
+import { getAllGyms, getGymByName } from "../utils/methods";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
@@ -9,15 +9,14 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
   const [userData, setUserData] = useState<any>({});
-  const[gyms, setGyms] = useState<Array<GymDto>>([])
+  const[gym, setGym] = useState<any>(null)
   const router = useRouter();
   useEffect(() => {
     const fetchData = () => {
-      axios.all([getAllGyms(), getUserData()])
+      axios.all([getUserData()])
       .then(
         axios.spread((...allData) => {
-          setGyms(allData[0])
-          setUserData(allData[1])
+          setUserData(allData[0])
         })
       )
     }
@@ -25,6 +24,13 @@ export default function Home() {
     fetchData();
   }, []);
   
+  useEffect(() => {
+    const fetchGym = async () => {
+      const d = await getGymByName(userData.gymName)
+      setGym(d);
+    }
+    fetchGym()
+  }, [userData])
 
   const handleEdit = async (id:number) => {
     router.push(`/edit-gym/${id}`)
@@ -42,6 +48,7 @@ export default function Home() {
         <h2 className='text-xl'>Lista teretana</h2>
         <div className="flex gap-4">
           <Link href={"/"} className="btn">Početna</Link>
+          <Link href={"/add-appointment"} className="btn">Dodaj novi termin</Link>
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
@@ -49,19 +56,16 @@ export default function Home() {
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
           <p className="font-bold w-[20%]">Naziv</p>
           <p className="font-bold w-[20%]">Broj trenera</p>
-          <p className="font-bold w-[60%]">Opis</p>
+          <p className="font-bold w-[45%]">Opis</p>
           <p className="px-4 py-2 bg-transparent text-transparent select-none">Ban</p>
         </div>
-        {gyms.map((g:GymDto) => {
-          return (
-            <div className='flex items-center p-4 border-2 rounded-lg' key={g.id}>
-              <p className="w-[20%]">{g.name}</p>
-              <p className="w-[20%]">{g.numOfPersonalCoaches}</p>
-              <p className="w-[60%]">{g.description}</p>
-              <button className="btn bg-yellow-400 hover:bg-yellow-300" onClick={() => handleEdit(g.id)}>Edit</button>
-            </div>
-          )
-        })}
+          {gym && <div className='flex items-center p-4 border-2 rounded-lg' key={gym.id}>
+            <p className="w-[20%]">{gym.name}</p>
+            <p className="w-[20%]">{gym.numOfPersonalCoaches}</p>
+            <p className="w-[45%]">{gym.description}</p>
+            <Link href={"/edit-gym/edit-training-types"} className="btn mr-2 text-nowrap">Training types</Link>
+            <button className="btn bg-yellow-400 hover:bg-yellow-300" onClick={() => handleEdit(gym.id)}>Edit</button>
+          </div>}
       </div>
     </main>
   )

@@ -8,6 +8,7 @@ type UserDto = {
     role: string,
     banned: boolean
     verified: boolean
+    gymName: string | null
 }
 
 type UserUpdateDto = {

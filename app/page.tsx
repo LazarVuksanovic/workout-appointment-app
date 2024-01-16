@@ -4,12 +4,13 @@ import { useAppContext } from "./utils/contexts/Context"
 import { cancelUserAppointment, getUserAppointments } from "./utils/methods";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
   const [userData, setUserData] = useState<any>({});
   const [appointments, setAppointments] = useState<Array<AppointmentDto>>([]);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchData = () => {
       axios.all([getUserAppointments(), getUserData()])
@@ -37,14 +38,16 @@ export default function Home() {
 
   if(token == null || token == '')
     return <p>Moras da se login-ujes</p>
+  else if(userData.role == "admin")
+    router.push("/admin-panel")
 
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
-      <h1 className='text-3xl mb-16 font-medium'>Dobro došao, {userData?.username}!</h1>
+      <h1 className='text-3xl mb-16 font-medium'>Welcome, {userData?.username}!</h1>
       <div className="flex justify-between mb-8">
         <h2 className='text-xl'>Zakazani treninzi</h2>
         <div className="flex gap-4">
-          <Link href={"/available-appointments"} className="btn">Zakaži novi termin</Link>
+          {userData.role == "client" && <Link href={"/available-appointments"} className="btn">Zakaži novi termin</Link>}
           {userData.role == "admin" && <Link href={"/admin-panel"} className="btn bg-yellow-400 hover:bg-yellow-300">Admin panel</Link>}
           {userData.role == "gymmanager" && <Link href={"/manager-panel"} className="btn bg-yellow-400 hover:bg-yellow-300">Manager panel</Link>}
           <Link href={"/edit-profile"} className="btn bg-yellow-400 hover:bg-yellow-300">Edit Profil</Link>
