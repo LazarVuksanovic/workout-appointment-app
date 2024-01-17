@@ -63,7 +63,7 @@ export default function Home() {
     return <p>Moras da se login-ujes</p>
   else if(userData.role != "gymmanager")
     return <p>Nisi menadžer teretane</p>
-    
+    console.log(inputs)
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Napravi novi termin u teretani <span className="text-cyan-500">{gym?.name}</span></h1>
