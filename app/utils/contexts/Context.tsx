@@ -22,7 +22,8 @@ const ContextProvider = ({children}: { children: React.ReactNode }) => {
     const [userData, setUserData] = useState<UserDto | null>(null)
     const router = useRouter();
 
-    const USER_URL = "http://localhost:8080/api"
+    // const USER_URL = "http://localhost:8080/api"
+    const USER_URL = "http://localhost:7777/user-service/api"
 
     useEffect(() => {
         const fetchData = async () => {

@@ -1,8 +1,12 @@
 import axios from "axios";
 
-const APPOINTMENT_URL = "http://localhost:8081/api"
-const MESSAGE_URL = "http://localhost:8082/api"
-const USER_URL = "http://localhost:8080/api"
+// const APPOINTMENT_URL = "http://localhost:8081/api"
+// const MESSAGE_URL = "http://localhost:8082/api"
+// const USER_URL = "http://localhost:8080/api"
+
+const APPOINTMENT_URL = "http://localhost:7777/appointment-service/api"
+const MESSAGE_URL = "http://localhost:7777/message-service/api"
+const USER_URL = "http://localhost:7777/user-service/api"
 
 export const registerClient = async (inputs:ClientCreateDto) => {
     try{
