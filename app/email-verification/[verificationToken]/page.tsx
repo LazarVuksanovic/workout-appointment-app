@@ -3,19 +3,18 @@ import { useEffect, useState } from "react";
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import { useAppContext } from "@/app/utils/contexts/Context";
-import { verifyEmail } from "@/app/utils/methods";
+import { verifyEmail } from "@/app/utils/apicalls";
 
 export default function Home() {
     const [done, setDone] = useState<boolean>(false)
-    const params = useParams<{ id: string }>()
+    const params = useParams<{ verificationToken: string }>()
     const router = useRouter();
 
     useEffect(() => {
         const verify = async () => {
-            await verifyEmail(Number.parseInt(params.id))
+            await verifyEmail(params.verificationToken)
             setDone(true)
-        }
+        }   
         verify()
     }, [])
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { useAppContext } from "@/app/utils/contexts/Context";
-import { addGymTrainingType, getGymByName, getGymTrainingTypes, getTrainingTypes, removeGymTrainingType } from "@/app/utils/methods";
+import { addGymTrainingType, getGymByName, getGymTrainingTypes, getTrainingTypes, removeGymTrainingType } from "@/app/utils/apicalls";
 import {Select, SelectItem} from "@nextui-org/react";
 
 export default function Home() {
@@ -74,14 +74,14 @@ export default function Home() {
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Gym manager panel</h1> 
       <div className="flex justify-between mb-8">
-        <h2 className='text-xl'>Lista teretana</h2>
+        <h2 className='text-xl'>Lista dostupnih tipova treninga</h2>
         <div className="flex gap-4">
           <Link href={"/"} className="btn">Početna</Link>
           <Link href={"/add-appointment"} className="btn">Dodaj novi termin</Link>
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
           <p className="font-bold w-[20%]">Tip treninga</p>
           <p className="font-bold w-[80%]">Cena</p>

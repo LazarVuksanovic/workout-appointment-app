@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { editUser } from "../utils/methods";
+import { editUser } from "../utils/apicalls";
 
 export default function Home() {
     const {getUserData} = useAppContext();

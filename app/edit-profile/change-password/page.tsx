@@ -1,6 +1,6 @@
 "use client"
 import { useAppContext } from "@/app/utils/contexts/Context";
-import { changePassword } from "@/app/utils/methods";
+import { changePassword } from "@/app/utils/apicalls";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 

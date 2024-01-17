@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { addAppointment, getGymByName, getGymTrainingTypes } from "../utils/methods";
+import { addAppointment, getGymByName, getGymTrainingTypes } from "../utils/apicalls";
 import Link from "next/link";
 import {Select, SelectItem} from "@nextui-org/react";
 import axios from "axios";

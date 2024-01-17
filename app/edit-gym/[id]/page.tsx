@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../utils/contexts/Context";
-import { editGym, getGymInfo } from "../../utils/methods";
+import { editGym, getGymInfo, updateManagerGymName } from "../../utils/apicalls";
 import axios from "axios";
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
@@ -47,6 +47,7 @@ export default function Home() {
     const handleUpdate = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await editGym(Number.parseInt(params.id), inputs);
+        await updateManagerGymName(inputs.name);
         router.push("/manager-panel");
     }
 

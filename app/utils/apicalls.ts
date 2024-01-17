@@ -290,12 +290,9 @@ export const getGymByName = async (name:string) => {
     }
 }
 
-export const verifyEmail = async (id:number) => {
-    const idDto:IdDto = {
-        id: id
-    }
+export const verifyEmail = async (verificationToken:string) => {
     try{
-        const res = await axios.post(`${USER_URL}/user/email-verification`, idDto, {
+        const res = await axios.post(`${USER_URL}/user/email-verification/${verificationToken}`, null, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -375,6 +372,56 @@ export const removeGymTrainingType = async (id:number) => {
 export const addGymTrainingType = async (gymId:number, inputs:any) => {
     try{
         const res = await axios.post(`${APPOINTMENT_URL}/gym/${gymId}/add-training-type`, inputs, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const getAllGymAppointments = async (gymId:number) => {
+    if (gymId == undefined)
+        return
+    try{
+        const res = await axios.get(`${APPOINTMENT_URL}/appointment/gym-appointments/${gymId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const makeAvailableAgain = async (appointmentId:number) => {
+    try{
+        const res  = await axios.post(`${APPOINTMENT_URL}/appointment/make-available/${appointmentId}`, null, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const updateManagerGymName = async (name:string) => {
+    const n = {
+        gymName: name
+    }
+    try{
+        const res  = await axios.post(`${USER_URL}/user/gymmanager/gym-name`, n, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`

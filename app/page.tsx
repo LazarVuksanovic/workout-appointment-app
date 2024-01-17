@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "./utils/contexts/Context"
-import { cancelUserAppointment, getUserAppointments } from "./utils/methods";
+import { cancelUserAppointment, getUserAppointments } from "./utils/apicalls";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
@@ -40,6 +40,8 @@ export default function Home() {
     return <p>Moras da se login-ujes</p>
   else if(userData.role == "admin")
     router.push("/admin-panel")
+  else if(userData.role == "gymmanager")
+    router.push("/manager-panel")
 
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
@@ -48,13 +50,11 @@ export default function Home() {
         <h2 className='text-xl'>Zakazani treninzi</h2>
         <div className="flex gap-4">
           {userData.role == "client" && <Link href={"/available-appointments"} className="btn">Zakaži novi termin</Link>}
-          {userData.role == "admin" && <Link href={"/admin-panel"} className="btn bg-yellow-400 hover:bg-yellow-300">Admin panel</Link>}
-          {userData.role == "gymmanager" && <Link href={"/manager-panel"} className="btn bg-yellow-400 hover:bg-yellow-300">Manager panel</Link>}
           <Link href={"/edit-profile"} className="btn bg-yellow-400 hover:bg-yellow-300">Edit Profil</Link>
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
           <p className="font-bold w-[25%]">Tip treninga</p>
           <p className="font-bold w-[25%]">Teretana</p>

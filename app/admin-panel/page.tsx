@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { banUser, getAllMessages, getAllUsers, unbanUser } from "../utils/methods";
+import { banUser, getAllMessages, getAllUsers, unbanUser } from "../utils/apicalls";
 import Link from "next/link";
 import axios from "axios";
 
@@ -45,7 +45,6 @@ export default function Home() {
   else if(userData.role != "admin")
     return <p>Zabranjen pristup</p>
 
-  console.log(messages)
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Admin panel</h1> 
@@ -55,27 +54,27 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[17%]">Username</p>
-          <p className="font-bold w-[17%]">Email</p>
-          <p className="font-bold w-[17%]">Ime i Prezime</p>
+          <p className="font-bold w-[12%]">Username</p>
+          <p className="font-bold w-[20%]">Email</p>
+          <p className="font-bold w-[20%]">Ime i Prezime</p>
           <p className="font-bold w-[14%]">Datum rođenja</p>
           <p className="font-bold w-[20%]">Scheduled appointments</p>
           <p className="font-bold w-[17%]">Uloga</p>
-          <p className="font-bold w-[17%]">Verified</p>
+          <p className="font-bold w-[10%]">Verified</p>
           <p className="px-4 py-2 bg-transparent text-transparent select-none">Ban</p>
         </div>
         {users.map((u:any) => {
           return (
             <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={u.id}>
-              <p className="w-[17%]">{u.username}</p>
-              <p className="w-[17%]">{u.email}</p>
-              <p className="w-[17%]">{u.firstName} {u.lastName}</p>
-              <p className="w-[17%]">{u.dateOfBirth}</p>
-              <p className="w-[17%]">{u.scheduledAppointments}</p> 
+              <p className="w-[12%]">{u.username}</p>
+              <p className="w-[20%]">{u.email}</p>
+              <p className="w-[20%]">{u.firstName} {u.lastName}</p>
+              <p className="w-[14%]">{u.dateOfBirth}</p>
+              <p className="w-[20%]">{u.scheduledAppointments}</p> 
               <p className="w-[17%]">{u.role}</p>
-              <p className="w-[17%]">{u.verified.toString()}</p>
+              <p className="w-[10%]">{u.verified.toString()}</p>
               {u.role != "admin" ? (
                 u.banned ?  (
                   <button className="btn" onClick={() => handleUnban(u.id)}>Unban</button>
@@ -92,7 +91,7 @@ export default function Home() {
       <div className="flex justify-between mb-8 mt-16">
         <h2 className='text-xl'>Lista poruka</h2>
       </div>
-      <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
           <p className="font-bold w-[25%]">Time sent</p>
           <p className="font-bold w-[20%]">Send to</p>

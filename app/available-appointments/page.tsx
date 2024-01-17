@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { getAvailableAppointments, getTrainingTypes, scheduleUserAppointment } from "../utils/methods";
+import { getAvailableAppointments, getTrainingTypes, scheduleUserAppointment } from "../utils/apicalls";
 import Link from "next/link";
 import Filter from "../components/Filter";
 import axios from "axios";
@@ -61,7 +61,7 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col  border-4 border-cyan-400 border-dashed gap-4 rounded-xl p-10 grow-0">
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
         <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
             <p className="font-bold w-[20%]">Tip treninga</p>
             <p className="font-bold w-[20%]">Teretana</p>

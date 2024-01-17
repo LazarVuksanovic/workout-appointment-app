@@ -1,5 +1,5 @@
 "use client"
-import { registerManager } from "@/app/utils/methods";
+import { registerManager } from "@/app/utils/apicalls";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

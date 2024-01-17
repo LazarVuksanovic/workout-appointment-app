@@ -28,7 +28,7 @@ const Filter: React.FC<FilterProps> = ({trainingTypes, submitFilter, setFilter, 
                 ))}
             </Select>
             <Select name="isIndividual" size="sm" label="Individualni ili Grupni" className="max-w-xs" onChange={handleSelectionChange}>
-                <SelectItem key={"null"} value={"null"}>svi</SelectItem>
+                <SelectItem key={"null"} value={"null"}>Svi</SelectItem>
                 <SelectItem key={"1"} value={"true"}>Individualni</SelectItem>
                 <SelectItem key={"2"} value={"false"}>Grupni</SelectItem>
             </Select>
