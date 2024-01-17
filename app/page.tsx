@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "./utils/contexts/Context"
-import { cancelUserAppointment, getUserAppointments } from "./utils/apicalls";
+import { cancelUserAppointment, getUserAppointments, getUserMessages } from "./utils/apicalls";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,11 @@ export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
   const [userData, setUserData] = useState<any>({});
   const [appointments, setAppointments] = useState<Array<AppointmentDto>>([]);
+  const [messages, setMessages] = useState<Array<any>>([])
   const router = useRouter();
   useEffect(() => {
     const fetchData = () => {
-      axios.all([getUserAppointments(), getUserData()])
+      axios.all([getUserAppointments(), getUserData(),])
       .then(
         axios.spread((...allData) => {
           setAppointments(allData[0])
@@ -24,6 +25,14 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const m = await getUserMessages(userData?.id)
+      setMessages(m)
+    }
+    fetchMessages()
+  }, [userData])
 
   const handleCancel = async (appointmentId:number) => {
     try {
@@ -70,6 +79,27 @@ export default function Home() {
               <p className="w-[25%]">{a.start}h - {a.end}h</p>
               <p className="w-[25%]">{a.date}</p>
               <button className="btn bg-red-400 hover:bg-red-300" id={a.id} onClick={() => handleCancel(a.id)}>Otkaži</button>
+          </div>
+          )
+        })}
+      </div>
+      <div className="flex justify-between mb-8 mt-16">
+        <h2 className='text-xl'>Poruke</h2>
+      </div>
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
+        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
+          <p className="font-bold w-[25%]">Time sent</p>
+          <p className="font-bold w-[20%]">Send to</p>
+          <p className="font-bold w-[35%]">Message</p>
+          <p className="font-bold w-[20%]">Message type</p>
+        </div>
+        {messages && messages.map((m:any) => {
+          return (
+            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.id}>
+              <p className="w-[25%]">{m.timeSent}</p>
+              <p className="w-[20%]">{m.email}</p>
+              <p className="w-[35%]">{m.text}</p>
+              <p className="w-[20%]">{m.messageType.messageType}</p>
           </div>
           )
         })}

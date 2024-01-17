@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { cancelUserAppointment, getAllGymAppointments, getAllGyms, getGymByName, makeAvailableAgain } from "../utils/apicalls";
+import { cancelUserAppointment, getAllGymAppointments, getAllGyms, getGymByName, getUserMessages, makeAvailableAgain } from "../utils/apicalls";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ export default function Home() {
   const [userData, setUserData] = useState<any>({});
   const [gym, setGym] = useState<any>(null)
   const [gymAppointments, setGymAppointments] = useState<any>(null)
+  const [messages, setMessages] = useState<Array<any>>([])
   const router = useRouter();
   useEffect(() => {
     const fetchData = () => {
@@ -29,6 +30,8 @@ export default function Home() {
     const fetchGym = async () => {
       const d = await getGymByName(userData.gymName)
       setGym(d);
+      const m = await getUserMessages(userData?.id)
+      setMessages(m)
     }
     fetchGym()
   }, [userData])
@@ -61,7 +64,7 @@ export default function Home() {
     return <p>Moras da se login-ujes</p>
   else if(userData.role != "gymmanager")
     return <p>Zabranjen pristup</p>
-
+  console.log(gymAppointments)
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Gym manager panel</h1> 
@@ -110,11 +113,32 @@ export default function Home() {
             <p className="w-[20%]">{a.date}</p>
             <p className="w-[20%]">{a.availablePlaces}</p>
             <p className="w-[20%]">{a.price} din.</p>
-            {a.availablePlaces > 0 ? (
+            {a.availablePlaces >= 0 ? (
                 <button className="btn bg-red-400 hover:bg-red-300" id={a.id} onClick={() => handleCancel(a.id)}>Otkaži</button>
               ) : (
                 <button className="btn" id={a.id} onClick={() => handleMakeAvailable(a.id)}>Omogući</button>
               )}
+          </div>
+          )
+        })}
+      </div>
+      <div className="flex justify-between mb-8 mt-16">
+        <h2 className='text-xl'>Poruke</h2>
+      </div>
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
+        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
+          <p className="font-bold w-[25%]">Time sent</p>
+          <p className="font-bold w-[20%]">Send to</p>
+          <p className="font-bold w-[35%]">Message</p>
+          <p className="font-bold w-[20%]">Message type</p>
+        </div>
+        {messages && messages.map((m:any) => {
+          return (
+            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.id}>
+              <p className="w-[25%]">{m.timeSent}</p>
+              <p className="w-[20%]">{m.email}</p>
+              <p className="w-[35%]">{m.text}</p>
+              <p className="w-[20%]">{m.messageType.messageType}</p>
           </div>
           )
         })}

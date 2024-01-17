@@ -496,3 +496,20 @@ export const getMessageTypeInfo = async (messageType:string) => {
         throw error;
     }
 }
+
+export const getUserMessages = async (id:number) => {
+    if(id == undefined)
+        return
+    try{
+        const res  = await axios.get(`${MESSAGE_URL}/message/user/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
