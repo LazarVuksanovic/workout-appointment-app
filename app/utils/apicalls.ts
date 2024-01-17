@@ -433,3 +433,66 @@ export const updateManagerGymName = async (name:string) => {
         throw error;
     }
 }
+
+export const getAllMessageTypes = async () => {
+    try{
+        const res  = await axios.get(`${MESSAGE_URL}/message/type/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data.content;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const deleteMessageType = async (messageType:string) => {
+    try{
+        const res  = await axios.post(`${MESSAGE_URL}/message/type/${messageType}/delete`, null, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const editMessageType = async (messageType:string, text:string) => {
+    const t = {
+        text: text
+    }
+    try{
+        const res  = await axios.post(`${MESSAGE_URL}/message/type/${messageType}`, t, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+export const getMessageTypeInfo = async (messageType:string) => {
+    try{
+        const res  = await axios.get(`${MESSAGE_URL}/message/type/${messageType}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}

@@ -1,25 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
-import { banUser, getAllMessages, getAllUsers, unbanUser } from "../utils/apicalls";
-import Link from "next/link";
+import { banUser, deleteMessageType, editMessageType, getAllMessageTypes, getAllMessages, getAllUsers, unbanUser } from "../utils/apicalls";
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
   const [userData, setUserData] = useState<any>({});
-  const[users, setUsers] = useState<Array<UserDto>>([])
-  const[messages, setMessages] = useState<Array<any>>([])
+  const [users, setUsers] = useState<Array<UserDto>>([])
+  const [messages, setMessages] = useState<Array<any>>([])
+  const [messageTypes, setMessageTypes] = useState<Array<any>>([])
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = () => {
-      axios.all([getAllUsers(), getAllMessages(), getUserData()])
+      axios.all([getAllUsers(), getAllMessages(), getUserData(), getAllMessageTypes()])
       .then(
         axios.spread((...allData) => {
           setUsers(allData[0])
           setMessages(allData[1])
           setUserData(allData[2])
+          setMessageTypes(allData[3])
         })
       )
     }
@@ -38,6 +41,18 @@ export default function Home() {
     await unbanUser(id);
     const t = await getAllUsers();
     setUsers(t);
+  }
+
+  const handleEdit = async (type:string, text:string) => {
+    await editMessageType(type, text);
+    const d = await getAllMessageTypes()
+    setMessageTypes(d);
+  }
+
+  const handleDelete = async (type:string) => {
+    await deleteMessageType(type)
+    const d = await getAllMessageTypes()
+    setMessageTypes(d);
   }
 
   if(token == null || token == '')
@@ -105,6 +120,27 @@ export default function Home() {
               <p className="w-[20%]">{m.email}</p>
               <p className="w-[35%]">{m.text}</p>
               <p className="w-[20%]">{m.messageType.messageType}</p>
+          </div>
+          )
+        })}
+      </div>
+      <div className="flex justify-between mb-8 mt-16">
+        <h2 className='text-xl'>Lista tipova poruka</h2>
+      </div>
+      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
+        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
+          <p className="font-bold w-[20%]">Tip</p>
+          <p className="font-bold w-[70%]">Text</p>
+          <p className="px-4 py-2 bg-transparent text-transparent select-none">edit</p>
+          <p className="px-4 py-2 bg-transparent text-transparent select-none">obrisi</p>
+        </div>
+        {messageTypes.map((m:any) => {
+          return (
+            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.messageType}>
+              <p className="w-[20%]">{m.messageType}</p>
+              <p className="w-[70%]">{m.text}</p>
+              <button className="btn bg-yellow-400 hover:bg-yellow-300" onClick={() => router.push(`/edit-message-type/${m.messageType}`)}>Edit</button>
+              <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleDelete(m.messageType)}>Obriši</button>
           </div>
           )
         })}
