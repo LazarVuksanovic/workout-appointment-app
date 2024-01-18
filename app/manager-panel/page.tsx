@@ -64,7 +64,7 @@ export default function Home() {
     return <p>Moras da se login-ujes</p>
   else if(userData.role != "gymmanager")
     return <p>Zabranjen pristup</p>
-  console.log(gymAppointments)
+
   return (
     <main className="flex flex-col min-h-screen items-left p-24">
       <h1 className='text-3xl mb-16 font-medium'>Gym manager panel</h1> 
@@ -109,7 +109,7 @@ export default function Home() {
           <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={a.id}>
             <p className="w-[20%]">{a.trainingTypeName}</p>
             <p className="w-[20%]">{a.gymName}</p>
-            <p className="w-[20%]">{a.start}h - {a.end}h</p>
+            <p className="w-[20%]">{`${a.start}h - ${a.end}h`}</p>
             <p className="w-[20%]">{a.date}</p>
             <p className="w-[20%]">{a.availablePlaces}</p>
             <p className="w-[20%]">{a.price} din.</p>

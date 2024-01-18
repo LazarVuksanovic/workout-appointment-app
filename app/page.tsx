@@ -38,8 +38,9 @@ export default function Home() {
     try {
       await cancelUserAppointment(userData, appointmentId);
       const userAppointments = await getUserAppointments();
-      
       setAppointments(userAppointments);
+      const m = await getUserMessages(userData?.id)
+      setMessages(m)
     } catch (error) {
       console.error(error);
     }

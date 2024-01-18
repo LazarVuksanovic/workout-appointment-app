@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../utils/contexts/Context";
 import { editUser } from "../utils/apicalls";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+    const router = useRouter();
     const {getUserData} = useAppContext();
     const [userData, setUserData] = useState<any>(null);
     const [inputs, setInputs] = useState<UserUpdateDto>({
@@ -44,6 +46,8 @@ export default function Home() {
         await editUser(inputs);
         const d = await getUserData()
         setUserData(d);
+        router.push("/");
+        //console.log(inputs)
     }
 
     return (
