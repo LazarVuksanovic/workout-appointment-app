@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import NotLoggedIn from "./components/NotLoggedIn";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
@@ -65,47 +66,53 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[25%]">Tip treninga</p>
-          <p className="font-bold w-[25%]">Teretana</p>
-          <p className="font-bold w-[25%]">Vreme</p>
-          <p className="font-bold w-[25%]">Datum</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">Otkaži</p>
-        </div>
-        {appointments.map((a:any) => {
-          return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={a.id}>
-              <p className="w-[25%]">{a.trainingTypeName}</p>
-              <p className="w-[25%]">{a.gymName}</p>
-              <p className="w-[25%]">{a.start}h - {a.end}h</p>
-              <p className="w-[25%]">{a.date}</p>
-              <button className="btn bg-red-400 hover:bg-red-300" id={a.id} onClick={() => handleCancel(a.id)}>Otkaži</button>
-          </div>
-          )
-        })}
-      </div>
+      <Table aria-label="Tabela zakazanih treninga">
+        <TableHeader>
+          <TableColumn>Tip treninga</TableColumn>
+          <TableColumn>Teretana</TableColumn>
+          <TableColumn>Vreme</TableColumn>
+          <TableColumn>Datum</TableColumn>
+          <TableColumn>Otkaži</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema zakazanih treninga."}>
+          {appointments.map((a:any) => {
+            return (
+              <TableRow key={a.id}>
+                <TableCell>{a.trainingTypeName}</TableCell>
+                <TableCell>{a.gymName}</TableCell>
+                <TableCell>{a.start}h - {a.end}h</TableCell>
+                <TableCell>{a.date}</TableCell>
+                <TableCell>
+                  <button className="btn bg-red-400 hover:bg-red-300" id={a.id} onClick={() => handleCancel(a.id)}>Otkaži</button>
+                </TableCell>
+            </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
       <div className="flex justify-between mb-8 mt-16">
         <h2 className='text-xl'>Poruke</h2>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[25%]">Time sent</p>
-          <p className="font-bold w-[20%]">Send to</p>
-          <p className="font-bold w-[35%]">Message</p>
-          <p className="font-bold w-[20%]">Message type</p>
-        </div>
+      <Table aria-label="Tabela primljenih poruka">
+        <TableHeader>
+          <TableColumn>Time sent</TableColumn>
+          <TableColumn>Send to</TableColumn>
+          <TableColumn>Message</TableColumn>
+          <TableColumn>Message type</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema poruka."}>
         {messages && messages.map((m:any) => {
           return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.id}>
-              <p className="w-[25%]">{m.timeSent}</p>
-              <p className="w-[20%]">{m.email}</p>
-              <p className="w-[35%]">{m.text}</p>
-              <p className="w-[20%]">{m.messageType.messageType}</p>
-          </div>
+            <TableRow key={m.id}>
+              <TableCell>{m.timeSent}</TableCell>
+              <TableCell>{m.email}</TableCell>
+              <TableCell>{m.text}</TableCell>
+              <TableCell>{m.messageType.messageType}</TableCell>
+            </TableRow>
           )
         })}
-      </div>
+        </TableBody>
+      </Table>
     </main>
   )
 }

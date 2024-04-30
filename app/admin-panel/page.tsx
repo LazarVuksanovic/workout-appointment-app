@@ -5,7 +5,7 @@ import { banUser, deleteMessageType, editMessageType, getAllMessageTypes, getAll
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import NotLoggedIn from "../components/NotLoggedIn";
-
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
@@ -70,82 +70,91 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[12%]">Username</p>
-          <p className="font-bold w-[20%]">Email</p>
-          <p className="font-bold w-[20%]">Ime i Prezime</p>
-          <p className="font-bold w-[14%]">Datum rođenja</p>
-          <p className="font-bold w-[20%]">Scheduled appointments</p>
-          <p className="font-bold w-[17%]">Uloga</p>
-          <p className="font-bold w-[10%]">Verified</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">Ban</p>
-        </div>
-        {users.map((u:any) => {
-          return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={u.id}>
-              <p className="w-[12%]">{u.username}</p>
-              <p className="w-[20%]">{u.email}</p>
-              <p className="w-[20%]">{u.firstName} {u.lastName}</p>
-              <p className="w-[14%]">{u.dateOfBirth}</p>
-              <p className="w-[20%]">{u.scheduledAppointments}</p> 
-              <p className="w-[17%]">{u.role}</p>
-              <p className="w-[10%]">{u.verified.toString()}</p>
-              {u.role != "admin" ? (
-                u.banned ?  (
-                  <button className="btn" onClick={() => handleUnban(u.id)}>Unban</button>
+      <Table aria-label="Tabela primljenih poruka">
+        <TableHeader>
+          <TableColumn>Username</TableColumn>
+          <TableColumn>Email</TableColumn>
+          <TableColumn>Ime i Prezime</TableColumn>
+          <TableColumn>Datum rođenja</TableColumn>
+          <TableColumn>Scheduled appointments</TableColumn>
+          <TableColumn>Uloga</TableColumn>
+          <TableColumn>Verified</TableColumn>
+          <TableColumn>Ban</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema poruka."}>
+          {users.map((u:any) => {
+            return (
+              <TableRow key={u.id}>
+                <TableCell>{u.username}</TableCell>
+                <TableCell>{u.email}</TableCell>
+                <TableCell>{u.firstName} {u.lastName}</TableCell>
+                <TableCell>{u.dateOfBirth}</TableCell>
+                <TableCell>{u.scheduledAppointments}</TableCell> 
+                <TableCell>{u.role}</TableCell>
+                <TableCell>{u.verified.toString()}</TableCell>
+                <TableCell>
+                  {u.role != "admin" ? (
+                    u.banned ?  (
+                      <button className="btn" onClick={() => handleUnban(u.id)}>Unban</button>
+                      ) : (
+                        <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleBan(u.id)}>Ban</button>
+                      )
                   ) : (
-                    <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleBan(u.id)}>Ban</button>
-                  )
-              ) : (
-                <p className="px-4 py-2 bg-transparent text-transparent select-none">ban</p>
-              )}
-          </div>
-          )
-        })}
-      </div>
+                    <p className="px-4 py-2 bg-transparent text-transparent select-none">ban</p>
+                  )}
+                </TableCell>
+            </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
       <div className="flex justify-between mb-8 mt-16">
         <h2 className='text-xl'>Lista poruka</h2>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[25%]">Time sent</p>
-          <p className="font-bold w-[20%]">Send to</p>
-          <p className="font-bold w-[35%]">Message</p>
-          <p className="font-bold w-[20%]">Message type</p>
-        </div>
-        {messages.map((m:any) => {
+      <Table aria-label="Tabela primljenih poruka">
+        <TableHeader>
+          <TableColumn>Time sent</TableColumn>
+          <TableColumn>Send to</TableColumn>
+          <TableColumn>Message</TableColumn>
+          <TableColumn>Message type</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema poruka."}>
+        {messages && messages.map((m:any) => {
           return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.id}>
-              <p className="w-[25%]">{m.timeSent}</p>
-              <p className="w-[20%]">{m.email}</p>
-              <p className="w-[35%]">{m.text}</p>
-              <p className="w-[20%]">{m.messageType.messageType}</p>
-          </div>
+            <TableRow key={m.id}>
+              <TableCell>{m.timeSent}</TableCell>
+              <TableCell>{m.email}</TableCell>
+              <TableCell>{m.text}</TableCell>
+              <TableCell>{m.messageType.messageType}</TableCell>
+            </TableRow>
           )
         })}
-      </div>
+        </TableBody>
+      </Table>
       <div className="flex justify-between mb-8 mt-16">
         <h2 className='text-xl'>Lista tipova poruka</h2>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[20%]">Tip</p>
-          <p className="font-bold w-[70%]">Text</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">edit</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">obrisi</p>
-        </div>
+      <Table aria-label="Tabela primljenih poruka">
+        <TableHeader>
+          <TableColumn>Type</TableColumn>
+          <TableColumn>Text</TableColumn>
+          <TableColumn>Edit</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema poruka."}>
         {messageTypes.map((m:any) => {
           return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={m.messageType}>
-              <p className="w-[20%]">{m.messageType}</p>
-              <p className="w-[70%]">{m.text}</p>
-              <button className="btn bg-yellow-400 hover:bg-yellow-300" onClick={() => router.push(`/edit-message-type/${m.messageType}`)}>Edit</button>
-              <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleDelete(m.messageType)}>Obriši</button>
-          </div>
+            <TableRow key={m.id}>
+              <TableCell>{m.messageType}</TableCell>
+              <TableCell>{m.text}</TableCell>
+              <TableCell className="flex gap-2">
+                <button className="btn bg-yellow-400 hover:bg-yellow-300" onClick={() => router.push(`/edit-message-type/${m.messageType}`)}>Edit</button>
+                <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleDelete(m.messageType)}>Obriši</button>
+              </TableCell>
+            </TableRow>
           )
         })}
-      </div>
+        </TableBody>
+      </Table>
     </main>
   )
 }

@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAppContext } from "@/app/utils/contexts/Context";
 import { addGymTrainingType, getGymByName, getGymTrainingTypes, getTrainingTypes, removeGymTrainingType } from "@/app/utils/apicalls";
 import {Select, SelectItem} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import NotLoggedIn from "@/app/components/NotLoggedIn";
 
 export default function Home() {
   const router = useRouter()
@@ -67,7 +69,7 @@ export default function Home() {
   }
 
   if(token == null || token == '')
-    return <p>Moras da se login-ujes</p>
+    return <NotLoggedIn/>
   else if(userData.role != "gymmanager")
     return <p>Nisi menadžer teretane</p>
   return (
@@ -81,33 +83,37 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-          <p className="font-bold w-[20%]">Tip treninga</p>
-          <p className="font-bold w-[80%]">Cena</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">Ban</p>
+      <form className='flex items-center justify-between p-4 border-2 rounded-lg mb-5'>
+        <div className="flex gap-5 w-[90%]">
+          {allTrainingTypes && <Select onChange={handleInputChange} name="id" size="sm" label="Tip Treninga" className="max-w-xs">
+            {allTrainingTypes.map((type: TrainingTypeDto) => (
+              <SelectItem key={type.id} value={type.name}>{type.name}</SelectItem>
+            ))}
+          </Select>}
+          <input onChange={handleInputChange} min={1} type="number" name='price' id="price" className="input" placeholder="cena"></input>
         </div>
+        <button className="btn" onClick={handleAdd}>Dodaj novi</button>
+      </form>
+      <Table aria-label="Tabela zakazanih treninga">
+        <TableHeader>
+          <TableColumn>Tip treninga</TableColumn>
+          <TableColumn>Cena</TableColumn>
+          <TableColumn>Obriši</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema dostupnih termina."}>
           {trainingTypes && trainingTypes.map((type) => {
-            return (
-              <div className='flex items-center p-4 border-2 rounded-lg' key={type.id}>
-                <p className="w-[20%]">{type.trainingTypeName}</p>
-                <p className="w-[80%]">{type.price}</p>
-                <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleRemove(type.id)}>Obrisi</button>
-              </div>
-            )
-          })}
-          <form className='flex items-center justify-between p-4 border-2 rounded-lg'>
-            <div className="flex gap-5 w-[90%]">
-              {allTrainingTypes && <Select onChange={handleInputChange} name="id" size="sm" label="Tip Treninga" className="max-w-xs">
-                {allTrainingTypes.map((type: TrainingTypeDto) => (
-                    <SelectItem key={type.id} value={type.name}>{type.name}</SelectItem>
-                ))}
-              </Select>}
-              <input onChange={handleInputChange} min={1} type="number" name='price' id="price" className="input" placeholder="cena"></input>
-            </div>
-            <button className="btn" onClick={handleAdd}>Dodaj novi</button>
-          </form>
-      </div>
+              return (
+                <TableRow key={type.id}>
+                  <TableCell>{type.trainingTypeName}</TableCell>
+                  <TableCell>{type.price}</TableCell>
+                  <TableCell>
+                    <button className="btn bg-red-400 hover:bg-red-300" onClick={() => handleRemove(type.id)}>Obrisi</button>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+        </TableBody>
+      </Table>
     </main>
   )
 }

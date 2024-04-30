@@ -6,7 +6,7 @@ import Link from "next/link";
 import Filter from "../components/Filter";
 import axios from "axios";
 import NotLoggedIn from "../components/NotLoggedIn";
-
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
@@ -62,30 +62,34 @@ export default function Home() {
           {userData && <button className="btn bg-red-400 hover:bg-red-300" onClick={logOut}>Logout</button>}
         </div>
       </div>
-      <div className="flex flex-col border-2 border-black shadow-lg gap-4 rounded-xl p-10 grow-0">
-        <div className='flex justify-left mx-4 px-4 border-b-2 border-black'>
-            <p className="font-bold w-[20%]">Tip treninga</p>
-            <p className="font-bold w-[20%]">Teretana</p>
-          <p className="font-bold w-[20%]">Vreme</p>
-          <p className="font-bold w-[20%]">Datum</p>
-          <p className="font-bold w-[20%]">Slobodnih Mesta</p>
-          <p className="font-bold w-[20%]">Cena</p>
-          <p className="px-4 py-2 bg-transparent text-transparent select-none">Zakazi</p>
-        </div>
-        {appointments.map((a:any) => {
-          return (
-            <div className='flex justify-between items-center p-4 border-2 rounded-lg' key={a.id}>
-              <p className="w-[20%]">{a.trainingTypeName}</p>
-              <p className="w-[20%]">{a.gymName}</p>
-              <p className="w-[20%]">{a.start}h - {a.end}h</p>
-              <p className="w-[20%]">{a.date}</p>
-              <p className="w-[20%]">{a.availablePlaces}</p>
-              <p className="w-[20%]">{a.price} din.</p>
-              <button className="btn" onClick={() => handleSchedule(a.id)}>Zakaži</button>
-          </div>
-          )
-        })}
-      </div>
+      <Table aria-label="Tabela zakazanih treninga">
+        <TableHeader>
+          <TableColumn>Tip treninga</TableColumn>
+          <TableColumn>Teretana</TableColumn>
+          <TableColumn>Vreme</TableColumn>
+          <TableColumn>Datum</TableColumn>
+          <TableColumn>Slobodnih Mesta</TableColumn>
+          <TableColumn>Cena</TableColumn>
+          <TableColumn>Zakazi</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"Nema dostupnih termina."}>
+          {appointments.map((a:any) => {
+            return (
+              <TableRow key={a.id}>
+                <TableCell>{a.trainingTypeName}</TableCell>
+                <TableCell>{a.gymName}</TableCell>
+                <TableCell>{a.start}h - {a.end}h</TableCell>
+                <TableCell>{a.date}</TableCell>
+                <TableCell>{a.availablePlaces}</TableCell>
+                <TableCell>{a.price} din.</TableCell>
+                <TableCell>
+                  <button className="btn" onClick={() => handleSchedule(a.id)}>Zakaži</button>
+                </TableCell>
+            </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
     </main>
   )
 }
