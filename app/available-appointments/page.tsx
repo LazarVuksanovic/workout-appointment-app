@@ -5,6 +5,7 @@ import { getAvailableAppointments, getTrainingTypes, scheduleUserAppointment } f
 import Link from "next/link";
 import Filter from "../components/Filter";
 import axios from "axios";
+import NotLoggedIn from "../components/NotLoggedIn";
 
 
 export default function Home() {
@@ -46,7 +47,7 @@ export default function Home() {
   };
 
   if(token == null || token == '')
-    return <p>Moras da se login-ujes</p>
+    return <NotLoggedIn/>
 
   return (
     <main className="flex flex-col min-h-screen items-left p-24">

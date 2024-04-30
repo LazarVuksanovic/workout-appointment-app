@@ -6,6 +6,7 @@ import Link from "next/link";
 import {Select, SelectItem} from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import NotLoggedIn from "../components/NotLoggedIn";
 
 export default function Home() {
   const router = useRouter()
@@ -60,7 +61,7 @@ export default function Home() {
   }
 
   if(token == null || token == '')
-    return <p>Moras da se login-ujes</p>
+    return <NotLoggedIn/>
   else if(userData.role != "gymmanager")
     return <p>Nisi menadžer teretane</p>
 

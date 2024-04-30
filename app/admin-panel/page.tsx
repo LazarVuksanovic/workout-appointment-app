@@ -4,6 +4,7 @@ import { useAppContext } from "../utils/contexts/Context";
 import { banUser, deleteMessageType, editMessageType, getAllMessageTypes, getAllMessages, getAllUsers, unbanUser } from "../utils/apicalls";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import NotLoggedIn from "../components/NotLoggedIn";
 
 
 export default function Home() {
@@ -56,7 +57,7 @@ export default function Home() {
   }
 
   if(token == null || token == '')
-    return <p>Moras da se login-ujes</p>
+    return <NotLoggedIn/>
   else if(userData.role != "admin")
     return <p>Zabranjen pristup</p>
 

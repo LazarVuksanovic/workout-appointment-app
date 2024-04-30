@@ -5,6 +5,7 @@ import { cancelUserAppointment, getUserAppointments, getUserMessages } from "./u
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import NotLoggedIn from "./components/NotLoggedIn";
 
 export default function Home() {
   const {getUserData, logOut, token} = useAppContext();
@@ -47,7 +48,7 @@ export default function Home() {
   };
 
   if(token == null || token == '')
-    return <p>Moras da se login-ujes</p>
+    return <NotLoggedIn/>
   else if(userData.role == "admin")
     router.push("/admin-panel")
   else if(userData.role == "gymmanager")
