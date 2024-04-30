@@ -96,7 +96,6 @@ export default function Home() {
       <Table aria-label="Tabela primljenih poruka">
         <TableHeader>
           <TableColumn>Time sent</TableColumn>
-          <TableColumn>Send to</TableColumn>
           <TableColumn>Message</TableColumn>
           <TableColumn>Message type</TableColumn>
         </TableHeader>
@@ -105,7 +104,6 @@ export default function Home() {
           return (
             <TableRow key={m.id}>
               <TableCell>{m.timeSent}</TableCell>
-              <TableCell>{m.email}</TableCell>
               <TableCell>{m.text}</TableCell>
               <TableCell>{m.messageType.messageType}</TableCell>
             </TableRow>
